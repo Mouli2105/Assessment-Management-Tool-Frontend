@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
+import HomePage from './HomePage'
 
 class AMT extends Component {
     render() {
         return (
-            <div>Hello World!!</div>
+            <React.Fragment>
+                <HomePage />
+            </React.Fragment>
         )
     }
 }

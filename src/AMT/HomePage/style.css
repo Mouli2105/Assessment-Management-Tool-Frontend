@@ -1,0 +1,9 @@
+.col {
+    height: 100vh;
+    align-items: center;
+}
+
+#title-col {
+    display: flex;
+    /* padding-left: 100px; */
+}
