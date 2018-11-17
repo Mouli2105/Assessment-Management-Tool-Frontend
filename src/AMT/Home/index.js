@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import './style.css'
 
-class HomePage extends Component {
+class Home extends Component {
     constructor() {
         super()
         this.state = {
@@ -121,4 +121,4 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage
+export default Home
