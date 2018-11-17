@@ -1,0 +1,9 @@
+.course-card {
+    transition: all 300ms;
+}
+
+.course-card:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+    box-shadow: 3px 2px 15px grey;
+}

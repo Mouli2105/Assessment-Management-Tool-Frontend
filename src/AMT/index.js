@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
-import HomePage from './HomePage'
+// import Home from './Home'
+import Courses from './Courses'
 
 class AMT extends Component {
     render() {
         return (
             <React.Fragment>
-                <HomePage />
+                {/* <Home /> */}
+                <Courses />
             </React.Fragment>
         )
     }

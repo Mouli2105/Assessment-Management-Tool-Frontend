@@ -1,0 +1,27 @@
+#settings-btn {
+    margin-left: 25px;
+}
+
+#settings-btn::after {
+    display: none;
+}
+
+#content {
+    position: absolute;
+    top: 70px;
+    bottom: 0;
+    left: 10px;
+    right: 10px;
+    overflow-y: scroll;
+}
+
+#loading-spinner {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: scale(5);
+}
+
+#profile-avatar {
+    width: 25px;
+}
