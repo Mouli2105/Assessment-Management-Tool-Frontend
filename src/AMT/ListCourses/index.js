@@ -3,7 +3,7 @@ import CourseCard from './CourseCard'
 import {ClipLoader} from 'react-spinners'
 import './style.css'
 
-class Courses extends Component {
+class ListCourses extends Component {
     constructor() {
         super()
         this.state = {
@@ -109,4 +109,4 @@ class Courses extends Component {
     }
 }
 
-export default Courses
+export default ListCourses
