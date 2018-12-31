@@ -1,0 +1,13 @@
+#task-list, #task-detail {
+    border: 2px solid lightblue;
+    min-height: calc(100%);
+    overflow-y: scroll;
+}
+
+#detail-row {
+    min-height: calc(100vh - 100px);
+}
+
+#task-detail {
+    padding: 10px;
+}

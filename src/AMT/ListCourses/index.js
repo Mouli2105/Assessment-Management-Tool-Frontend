@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import CourseCard from './CourseCard'
 import {ClipLoader} from 'react-spinners'
+import Settings from '../template/Settings'
 import './style.css'
 
 class ListCourses extends Component {
@@ -9,11 +10,9 @@ class ListCourses extends Component {
         this.state = {
             searchText: '',
             courses: [],
-            filteredCourses: [],
-            settingsOpen: false
+            filteredCourses: []
         }
         this.handleSearchChange = this.handleSearchChange.bind(this)
-        this.toggleSettingsMenu = this.toggleSettingsMenu.bind(this)
         this.search = this.search.bind(this)
         this.fetchCourses = this.fetchCourses.bind(this)
     }
@@ -32,17 +31,12 @@ class ListCourses extends Component {
             }
         })
     }
-    toggleSettingsMenu() {
-        this.setState(prev => ({
-            settingsOpen: !prev.settingsOpen
-        }))
-    }
     search(event) {
         event.preventDefault()
         // implement this...
     }
     fetchCourses() {
-        fetch(`http://my-reddit-webapp.herokuapp.com/api/reddit/r/`).then(res => 
+        fetch(`http://localhost:8000/api/courses/`).then(res => 
             res.json()
         ).then(data => {
             this.setState({
@@ -77,18 +71,7 @@ class ListCourses extends Component {
                                 </form>
                             </div>
                         </div>
-                        <div className="dropdown">
-                            <button type="button" id="settings-btn" className="btn bg-light dropdown-toggle" data-toggle="dropdown" onClick={this.toggleSettingsMenu}>
-                                <i className="fa fa-cog" aria-hidden="true"></i>
-                            </button>
-                            <div className={`dropdown-menu dropdown-menu-right${this.state.settingsOpen ? ' show' : ''}`}>
-                                <a className="dropdown-item" href="/">
-                                    <img src={require('./profile-avatar.png')} class="rounded" alt="Profile Avatar" id="profile-avatar" /> Account
-                                </a>
-                                <a className="dropdown-item" href="/">My Courses</a>
-                                <a className="dropdown-item" href="/">Settings</a>
-                            </div>
-                        </div>
+                        <Settings />
                     </nav>
                 </section>
                 <section id="content">
