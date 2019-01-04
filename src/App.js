@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import AMT from './AMT'
-import './App.css';
+import {Provider} from './context'
 
 class App extends Component {
   render() {
     return (
-      <AMT />
+      <Provider>
+        <AMT />
+      </Provider>
     );
   }
 }
