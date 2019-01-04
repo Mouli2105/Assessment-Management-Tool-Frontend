@@ -14,20 +14,20 @@ class DetailCourse extends Component {
         this.fetchTaskList = this.fetchTaskList.bind(this)
         this.fetchActiveTask = this.fetchActiveTask.bind(this)
     }
-    fetchTaskList(callback) {
-        fetch(`http://localhost:8000/api/courses/${this.props.courseID}/tasks/`).then(res =>
+    fetchTaskList(courseId, callback) {
+        fetch(`http://localhost:8000/api/courses/${courseId}/tasks/`).then(res =>
             res.json()
         ).then(data => {
             this.setState({
                 taskList: data,
                 activeTask: data.length
-            }, callback)
+            }, () => callback(courseId))
         }).catch(err => {
             console.log('Unable to fetch task list!', err)
         })
     }
-    fetchActiveTask() {
-        fetch(`http://localhost:8000/api/courses/${this.props.courseID}/tasks/${this.state.activeTask}`).then(res =>
+    fetchActiveTask(courseId) {
+        fetch(`http://localhost:8000/api/courses/${courseId}/tasks/${this.state.activeTask}`).then(res =>
             res.json()
         ).then(data => {
             this.setState({
@@ -38,7 +38,7 @@ class DetailCourse extends Component {
         })
     }
     componentDidMount() {
-        this.fetchTaskList(this.fetchActiveTask)
+        this.fetchTaskList(this.props.match.params.c_id, this.fetchActiveTask)
     }
     render() {
         return (
