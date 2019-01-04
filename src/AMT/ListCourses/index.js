@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import CourseCard from './CourseCard'
-import {ClipLoader} from 'react-spinners'
 import Settings from '../template/Settings'
+import { PropagateLoader } from 'react-spinners'
 import './style.css'
 
 class ListCourses extends Component {
@@ -36,7 +36,7 @@ class ListCourses extends Component {
         // implement this...
     }
     fetchCourses() {
-        fetch(`http://localhost:8000/api/courses/`).then(res => 
+        fetch(`${this.props.baseURL}/api/courses/`).then(res => 
             res.json()
         ).then(data => {
             this.setState({
@@ -50,6 +50,10 @@ class ListCourses extends Component {
     }
     componentDidMount() {
         this.fetchCourses()
+    }
+    pickColor() {
+        const colors = ['violet', 'indigo', 'blue', 'green', 'yellow', 'orange', 'red']
+
     }
     render() {
         return (
@@ -83,7 +87,7 @@ class ListCourses extends Component {
                         </div>
                     :
                         <div id="loading-spinner">
-                            <ClipLoader color='blue'/>
+                            <PropagateLoader color='lightblue'/>
                         </div>
                     }
                 </section>

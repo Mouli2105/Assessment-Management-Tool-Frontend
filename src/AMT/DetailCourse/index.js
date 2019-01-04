@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Settings from '../template/Settings'
-import {ClipLoader} from 'react-spinners'
+import {ClipLoader, BarLoader, BeatLoader, BounceLoader, CircleLoader, ClimbingBoxLoader, DotLoader, FadeLoader, PacmanLoader} from 'react-spinners'
 import './style.css'
 
 class DetailCourse extends Component {
@@ -15,7 +15,7 @@ class DetailCourse extends Component {
         this.fetchActiveTask = this.fetchActiveTask.bind(this)
     }
     fetchTaskList(courseId, callback) {
-        fetch(`http://localhost:8000/api/courses/${courseId}/tasks/`).then(res =>
+        fetch(`${this.props.baseURL}/api/courses/${courseId}/tasks/`).then(res =>
             res.json()
         ).then(data => {
             this.setState({
@@ -27,7 +27,7 @@ class DetailCourse extends Component {
         })
     }
     fetchActiveTask(courseId) {
-        fetch(`http://localhost:8000/api/courses/${courseId}/tasks/${this.state.activeTask}`).then(res =>
+        fetch(`${this.props.baseURL}/api/courses/${courseId}/tasks/${this.state.activeTask}`).then(res =>
             res.json()
         ).then(data => {
             this.setState({
@@ -38,7 +38,7 @@ class DetailCourse extends Component {
         })
     }
     componentDidMount() {
-        this.fetchTaskList(this.props.match.params.c_id, this.fetchActiveTask)
+        this.fetchTaskList(this.props.courseId, this.fetchActiveTask)
     }
     render() {
         return (
@@ -72,7 +72,7 @@ class DetailCourse extends Component {
                                         )}
                                     </div>
                                     :
-                                    <ClipLoader />
+                                    <BarLoader />
                                 }
                             </section>
                         </div>
@@ -91,7 +91,7 @@ class DetailCourse extends Component {
                                         }
                                     </React.Fragment>
                                     :
-                                    <ClipLoader />
+                                    <PacmanLoader />
                                 }
                             </section>
                         </div>

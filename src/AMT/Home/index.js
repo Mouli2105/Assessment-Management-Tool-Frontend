@@ -47,6 +47,9 @@ class Home extends Component {
         event.preventDefault()
         // implement this
     }
+    componentDidMount() {
+        console.log(this.props)
+    }
     render() {
         return (
             <div className="container-fluid">

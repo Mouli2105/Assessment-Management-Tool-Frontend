@@ -4,7 +4,7 @@ const Context = React.createContext()
 
 class Provider extends Component {
     state = {
-        username: 'Mouli'
+        baseURL: 'http://localhost:8000'
     }
     render() {
         return (
