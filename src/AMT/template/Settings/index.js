@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {withRouter} from 'react-router'
 import './style.css'
 
 class Settings extends Component {
@@ -8,11 +9,17 @@ class Settings extends Component {
             settingsOpen: false
         }
         this.toggleSettingsMenu = this.toggleSettingsMenu.bind(this)
+        this.logout             = this.logout.bind(this)
     }
     toggleSettingsMenu() {
         this.setState(prev => ({
             settingsOpen: !prev.settingsOpen
         }))
+    }
+    logout(event) {
+        event.preventDefault()
+        localStorage.removeItem('token')
+        this.props.history.push('/home')
     }
     render() {
         return (
@@ -26,10 +33,11 @@ class Settings extends Component {
                     </a>
                     <a className="dropdown-item" href="/">My Courses</a>
                     <a className="dropdown-item" href="/">Settings</a>
+                    <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
                 </div>
             </div>
         )
     }
 }
 
-export default Settings
+export default withRouter(Settings)

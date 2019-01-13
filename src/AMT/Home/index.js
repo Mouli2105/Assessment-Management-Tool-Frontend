@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {withRouter} from 'react-router'
 import './style.css'
 
 class Home extends Component {
@@ -6,17 +7,20 @@ class Home extends Component {
         super()
         this.state = {
             renderSignup: false,
-            username: '',
-            password: '',
-            email: '',
+            username    : '',
+            email       : '',
+            college     : '',
+            branch      : '',
+            section     : '',
+            password    : '',
             rememberUser: false,
         }
-        this.showLoginForm = this.showLoginForm.bind(this)
-        this.showSignupForm = this.showSignupForm.bind(this)
+        this.showLoginForm     = this.showLoginForm.bind(this)
+        this.showSignupForm    = this.showSignupForm.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
-        this.login = this.login.bind(this)
-        this.signup = this.signup.bind(this)
-        this.troubleLoggingIn = this.troubleLoggingIn.bind(this)
+        this.login             = this.login.bind(this)
+        this.signup            = this.signup.bind(this)
+        this.troubleLoggingIn  = this.troubleLoggingIn.bind(this)
     }
     showLoginForm(event) {
         event.preventDefault()
@@ -37,18 +41,68 @@ class Home extends Component {
     }
     login(event) {
         event.preventDefault()
-        // implement this
+        fetch(`${this.props.baseURL}/api/auth/token/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password
+            })
+        }).then(res => {
+            if (res.status < 300) {
+                return res.json()
+            }
+            throw new Error('Server response was not ok!')
+        }).then(res => {
+            localStorage.setItem('token', res.token)
+            this.props.history.push('/courses')
+        }).catch(err => {
+            console.log(err)
+        })
     }
     signup(event) {
         event.preventDefault()
-        // implement this
+        fetch(`${this.props.baseURL}/api/students/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: {
+                    username : this.state.username,
+                    email    : this.state.email,
+                    password : this.state.password
+                },
+                college      : this.state.college,
+                branch       : this.state.branch,
+                section      : this.state.section,
+                optedCourses : [],
+                registrations: []
+            })
+        }).then(res => {
+            if (res.status < 300) {
+                return res.json()
+            }
+            throw new Error('Server reponse was not ok!')
+        }).then(res => {
+            localStorage.setItem('token', res.token)
+            this.props.history.push('/courses')
+        }).catch(err => {
+            console.log(err.message);
+        })
     }
     troubleLoggingIn(event) {
         event.preventDefault()
         // implement this
     }
     componentDidMount() {
-        console.log(this.props)
+        this.props.alreadyLoggedIn(
+            () => {
+                this.props.history.push('/courses')
+            }
+        )
     }
     render() {
         return (
@@ -99,10 +153,19 @@ class Home extends Component {
                                 <div className="card-body">
                                     <form onSubmit={this.signup}>
                                         <div className="form-group">
+                                            <input type="text" className="form-control" placeholder="Username" value={this.state.username} onChange={this.handleInputChange} name="username"/>
+                                        </div>
+                                        <div className="form-group">
                                             <input type="email" className="form-control" placeholder="Email" value={this.state.email} onChange={this.handleInputChange} name="email"/>
                                         </div>
                                         <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="Username" value={this.state.username} onChange={this.handleInputChange} name="username"/>
+                                            <input type="text" className="form-control" placeholder="College" value={this.state.college} onChange={this.handleInputChange} name="college"/>
+                                        </div>
+                                        <div className="form-group">
+                                            <input type="text" className="form-control" placeholder="Branch" value={this.state.branch} onChange={this.handleInputChange} name="branch"/>
+                                        </div>
+                                        <div className="form-group">
+                                            <input type="text" className="form-control" placeholder="Section" value={this.state.section} onChange={this.handleInputChange} name="section"/>
                                         </div>
                                         <div className="form-group">
                                             <input type="password" className="form-control" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} name="password"/>
@@ -124,4 +187,4 @@ class Home extends Component {
     }
 }
 
-export default Home
+export default withRouter(Home)
