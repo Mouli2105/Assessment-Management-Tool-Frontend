@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import CourseCard from './CourseCard'
 import Settings from '../template/Settings'
 import { PropagateLoader } from 'react-spinners'
+import {withRouter} from 'react-router'
 import './style.css'
 
 class ListCourses extends Component {
@@ -22,7 +23,9 @@ class ListCourses extends Component {
         }, () => {
             if (this.state.searchText !== '') {
                 this.setState({
-                    filteredCourses: this.state.courses.filter(course => course.name.toLowerCase().includes(this.state.searchText.toLowerCase()))
+                    filteredCourses: this.state.courses.filter(
+                        course => course.name.toLowerCase().includes(this.state.searchText.toLowerCase())
+                    )
                 })
             } else {
                 this.setState({
@@ -36,24 +39,32 @@ class ListCourses extends Component {
         // implement this...
     }
     fetchCourses() {
-        fetch(`${this.props.baseURL}/api/courses/`).then(res => 
-            res.json()
-        ).then(data => {
+        fetch(`${this.props.baseURL}/api/courses/`, {
+            headers: {
+                'Authorization': `jwt ${localStorage.getItem('token')}`
+            }
+        }).then(res => {
+            if (res.status < 300) {
+                return res.json()
+            }
+            throw new Error(res.statusText)
+        }).then(data => {
             this.setState({
                 courses: data,
                 filteredCourses: data,
             })
         }).catch(err => {
-            console.log('Fetching Error!', err)
+            console.log(err)
         })
         
     }
     componentDidMount() {
-        this.fetchCourses()
-    }
-    pickColor() {
-        const colors = ['violet', 'indigo', 'blue', 'green', 'yellow', 'orange', 'red']
-
+        this.props.alreadyLoggedIn(
+            this.fetchCourses, 
+            () => {
+                this.props.history.push('/home')
+            }
+        )
     }
     render() {
         return (
@@ -82,7 +93,12 @@ class ListCourses extends Component {
                     {this.state.courses.length !== 0 ?
                         <div className="card-columns">
                             {this.state.filteredCourses.map(course => 
-                                <CourseCard key={course.id} name={course.name} description={course.description} />
+                                <CourseCard 
+                                    key={course.id}
+                                    id={course.id}
+                                    name={course.name} 
+                                    description={course.description}
+                                />
                             )}
                         </div>
                     :
@@ -96,4 +112,4 @@ class ListCourses extends Component {
     }
 }
 
-export default ListCourses
+export default withRouter(ListCourses)

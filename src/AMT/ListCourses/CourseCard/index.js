@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {withRouter} from 'react-router'
 import './style.css'
 
 class CourseCard extends Component {
@@ -7,7 +8,8 @@ class CourseCard extends Component {
         this.cardClicked = this.cardClicked.bind(this)
     }
     cardClicked() {
-        // implement this...
+        console.log(this.props)
+        this.props.history.push(`/courses/${this.props.id}`)
     }
     render() {
         return (
@@ -15,11 +17,11 @@ class CourseCard extends Component {
                 <img className="card-img-top course-card-img" src={require('./course-placeholder.jpg')} alt="Course" />
                 <div className="card-body">
                     <h3 className="card-title">{this.props.name}</h3>
-                    <p className="card-text">{this.props.description}</p>
+                    <p className="card-text">{this.props.description.substring(0, 30)}...</p>
                 </div>
             </div>
         )
     }
 }
 
-export default CourseCard
+export default withRouter(CourseCard)
