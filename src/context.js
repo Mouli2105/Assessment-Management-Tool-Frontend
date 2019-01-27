@@ -4,7 +4,7 @@ const Context = React.createContext()
 
 class Provider extends Component {
     state = {
-        baseURL: 'http://localhost:8000',
+        backendURL: 'http://mouli2105.pythonanywhere.com',
         loggedIn: false,
         username: '',
         role: '',
@@ -28,7 +28,7 @@ class Provider extends Component {
         alreadyLoggedIn: (successCallback, failureCallback) => {
             let token = localStorage.getItem('token')
             if (token) {
-                fetch(`${this.state.baseURL}/api/auth/token/refresh/`, {
+                fetch(`${this.state.backendURL}/api/auth/token/refresh/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

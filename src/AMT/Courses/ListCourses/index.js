@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import CourseCard from './CourseCard'
-import Settings from '../template/Settings'
+import Navbar from '../../template/Navbar'
 import { PropagateLoader } from 'react-spinners'
 import {withRouter} from 'react-router'
 import './style.css'
@@ -13,33 +13,19 @@ class ListCourses extends Component {
             courses: [],
             filteredCourses: []
         }
-        this.handleSearchChange = this.handleSearchChange.bind(this)
-        this.search = this.search.bind(this)
+        this.search       = this.search.bind(this)
         this.fetchCourses = this.fetchCourses.bind(this)
     }
-    handleSearchChange(event) {
-        this.setState({
-            searchText: event.target.value
-        }, () => {
-            if (this.state.searchText !== '') {
-                this.setState({
-                    filteredCourses: this.state.courses.filter(
-                        course => course.name.toLowerCase().includes(this.state.searchText.toLowerCase())
-                    )
-                })
-            } else {
-                this.setState({
-                    filteredCourses: this.state.courses
-                })
-            }
-        })
-    }
-    search(event) {
-        event.preventDefault()
+    search(searchText) {
         // implement this...
+       this.setState({
+           filteredCourses: this.state.courses.filter(course => {
+                return course.name.toLowerCase().includes(searchText.toLowerCase())
+           })
+       })
     }
     fetchCourses() {
-        fetch(`${this.props.baseURL}/api/courses/`, {
+        fetch(`${this.props.backendURL}/api/courses/`, {
             headers: {
                 'Authorization': `jwt ${localStorage.getItem('token')}`
             }
@@ -69,26 +55,12 @@ class ListCourses extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <section id="navigation-bar">
-                    <nav className="navbar fixed-top">
-                        <a href="/" className="navbar-brand">Courses</a>
-                        <div className="navbar-nav ml-auto">
-                            <div className="nav-item">
-                                <form className="form-inline" onSubmit={this.search}>
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text">
-                                                <i className="fa fa-search" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" className="form-control" name="searchText" value={this.state.searchText} onChange={this.handleSearchChange} placeholder="Search..." />
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <Settings />
-                    </nav>
-                </section>
+                <Navbar
+                    title='AMT'
+                    showSearchBar
+                    searchCallback={this.search}
+                    showSettings
+                />
                 <section id="content">
                     {this.state.courses.length !== 0 ?
                         <div className="card-columns">

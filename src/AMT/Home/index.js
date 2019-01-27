@@ -41,7 +41,7 @@ class Home extends Component {
     }
     login(event) {
         event.preventDefault()
-        fetch(`${this.props.baseURL}/api/auth/token/`, {
+        fetch(`${this.props.backendURL}/api/auth/token/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ class Home extends Component {
     }
     signup(event) {
         event.preventDefault()
-        fetch(`${this.props.baseURL}/api/students/`, {
+        fetch(`${this.props.backendURL}/api/students/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
