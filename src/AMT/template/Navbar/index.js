@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import Settings from '../Settings'
+import './style.css'
+import { withRouter } from 'react-router';
 
 class Navbar extends Component {
     constructor() {
@@ -9,6 +11,7 @@ class Navbar extends Component {
         }
         this.handleChange  = this.handleChange.bind(this)
         this.searchWrapper = this.searchWrapper.bind(this)
+        this.titleClicked  = this.titleClicked.bind(this)
     }
     handleChange(event) {
         this.setState({
@@ -16,14 +19,20 @@ class Navbar extends Component {
         })
     }
     searchWrapper(event) {
-        event.preventDefault()
+        event.preventtitleDefault()
         this.props.searchCallback(this.state.searchText)
+    }
+    titleClicked(event) {
+        event.preventDefault()
+        if (this.props.titleRedirectURL) {
+            this.props.history.push(this.props.titleRedirectURL)
+        }
     }
     render() {
         return (
             <section id="navigation-bar">
                 <nav className="navbar fixed-top">
-                    <a href="# > __ < " className="navbar-brand" onClick={this.props.titleRedirect}>{this.props.title}</a>
+                    <a href="#" className="navbar-brand" onClick={this.titleClicked}>{this.props.title}</a>
                     <div className="navbar-nav ml-auto">
                         {this.props.showSearchBar && 
                             <div className="nav-item">
@@ -54,4 +63,4 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar
+export default withRouter(Navbar)

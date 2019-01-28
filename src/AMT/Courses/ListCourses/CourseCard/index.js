@@ -8,7 +8,6 @@ class CourseCard extends Component {
         this.cardClicked = this.cardClicked.bind(this)
     }
     cardClicked() {
-        console.log(this.props)
         this.props.history.push(`/courses/${this.props.id}`)
     }
     render() {

@@ -6,7 +6,7 @@
     display: none;
 }
 
-#content {
+#list-courses-content {
     position: absolute;
     top: 70px;
     bottom: 0;

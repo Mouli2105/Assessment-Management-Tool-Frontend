@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import Settings from '../../template/Settings'
-import {ClipLoader, BarLoader, BeatLoader, BounceLoader, CircleLoader, ClimbingBoxLoader, DotLoader, FadeLoader, PacmanLoader} from 'react-spinners'
+import Navbar from '../../template/Navbar'
+import {BarLoader, PacmanLoader} from 'react-spinners'
 import './style.css'
 
 class DetailCourse extends Component {
@@ -15,26 +15,32 @@ class DetailCourse extends Component {
         this.fetchActiveTask = this.fetchActiveTask.bind(this)
     }
     fetchTaskList(courseId, callback) {
-        fetch(`${this.props.backendURL}/api/courses/${courseId}/tasks/`).then(res =>
-            res.json()
-        ).then(data => {
+        fetch(`${this.props.backendURL}/api/courses/${courseId}/tasks/`).then(res => {
+            if (res.status === 200) {
+                return res.json()
+            }
+            throw new Error(res.statusText)
+        }).then(data => {
             this.setState({
                 taskList: data,
                 activeTask: data.length
             }, () => callback(courseId))
         }).catch(err => {
-            console.log('Unable to fetch task list!', err)
+            console.log(err)
         })
     }
     fetchActiveTask(courseId) {
-        fetch(`${this.props.backendURL}/api/courses/${courseId}/tasks/${this.state.activeTask}`).then(res =>
-            res.json()
-        ).then(data => {
+        fetch(`${this.props.backendURL}/api/courses/${courseId}/tasks/${this.state.activeTask}`).then(res => {
+            if (res.status === 200) {
+                return res.json()
+            }
+            throw new Error(res.statusText)
+        }).then(data => {
             this.setState({
                 taskDetail: data
             })
         }).catch(err => {
-            console.log('Unable to fetch task detail!', err)
+            console.log(err)
         })
     }
     componentDidMount() {
@@ -43,12 +49,10 @@ class DetailCourse extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <section id="course-detail-navbar">
-                    <nav className="navbar">
-                        <a href="/" className="navbar-brand">Course Name</a>
-                        <Settings />
-                    </nav>
-                </section>
+                <Navbar
+                    title='course'
+                    showSettings
+                />
                 <section id="course-detail-content">
                     <div className="row" id="detail-row">
                         <div className="col-4">
@@ -72,7 +76,9 @@ class DetailCourse extends Component {
                                         )}
                                     </div>
                                     :
-                                    <BarLoader />
+                                    <div id="task-list-loader">
+                                        <BarLoader color='blue'/>
+                                    </div>
                                 }
                             </section>
                         </div>
@@ -91,7 +97,9 @@ class DetailCourse extends Component {
                                         }
                                     </React.Fragment>
                                     :
-                                    <PacmanLoader />
+                                    <div id="task-detail-loader">
+                                        <PacmanLoader color='orange'/>
+                                    </div>
                                 }
                             </section>
                         </div>

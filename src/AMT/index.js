@@ -2,9 +2,8 @@ import React, {Component} from 'react'
 import {BrowserRouter, Route, Redirect} from 'react-router-dom'
 import Home from './Home'
 import ListCourses from './Courses/ListCourses'
-import DetailCourse from './Courses/DetailCourse'
-import CourseRegister from './Courses/CourseRegister'
 import Context from '../context';
+import CourseWrapper from './Courses/Wrapper/index'
 
 class AMT extends Component {
     render() {
@@ -26,16 +25,15 @@ class AMT extends Component {
                                     exact path='/courses'
                                     render={() => <ListCourses {...ctx}/>}
                                 />
-                                {/* <Route 
+                                <Route
                                     exact path='/courses/:c_id'
                                     render={(props) => 
-                                        <DetailCourse 
+                                        <CourseWrapper 
                                             {...ctx}
                                             courseId={props.match.params.c_id}
                                         />
                                     }
-                                /> */}
-                                {/* <ListCourses {...ctx} /> */}
+                                />
                             </React.Fragment>
                         </BrowserRouter>
                     )

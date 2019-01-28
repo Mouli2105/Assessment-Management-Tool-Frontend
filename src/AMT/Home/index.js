@@ -51,12 +51,16 @@ class Home extends Component {
                 password: this.state.password
             })
         }).then(res => {
+            console.log('res', res)
             if (res.status < 300) {
                 return res.json()
             }
-            throw new Error('Server response was not ok!')
+            throw new Error(res.statusText)
         }).then(res => {
             localStorage.setItem('token', res.token)
+            // ADD USERID TO BACKEND
+            // this.props.setCurrentUser(res.userId, res.username)
+            this.props.setRote(res.is_student, res.is_mentor)
             this.props.history.push('/courses')
         }).catch(err => {
             console.log(err)
@@ -88,6 +92,9 @@ class Home extends Component {
             throw new Error('Server reponse was not ok!')
         }).then(res => {
             localStorage.setItem('token', res.token)
+            // ADD USERID TO BACKEND
+            // this.props.setCurrentUser(res.userId, res.username)
+            this.props.setRote(res.is_student, res.is_mentor)
             this.props.history.push('/courses')
         }).catch(err => {
             console.log(err.message);
@@ -108,7 +115,7 @@ class Home extends Component {
         return (
             <div className="container-fluid">
                 <div id="home-page" className="row">
-                    <div id="title-col" className="col bg-success">
+                    <div id="title-col" className="col bg-success my-col">
                         <h1 className="display-1">
                             <kbd>A</kbd>ssessment
                             <br />
@@ -117,7 +124,7 @@ class Home extends Component {
                             <kbd>T</kbd>ool
                         </h1>
                     </div>
-                    <div className="col text-center">
+                    <div className="col text-center my-col">
                         <h4 className="display-4"><kbd>AMT</kbd></h4>
                         {!this.state.renderSignup ? 
                             <div className="card">

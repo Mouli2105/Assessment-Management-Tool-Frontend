@@ -61,7 +61,7 @@ class ListCourses extends Component {
                     searchCallback={this.search}
                     showSettings
                 />
-                <section id="content">
+                <section id="list-courses-content">
                     {this.state.courses.length !== 0 ?
                         <div className="card-columns">
                             {this.state.filteredCourses.map(course => 
