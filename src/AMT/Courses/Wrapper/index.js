@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { withRouter } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
-import DetailCourse from '../DetailCourse'
+import CourseMaterial from '../CourseMaterial'
 import CourseRegister from '../CourseRegister'
 
 class Wrapper extends Component {
@@ -70,7 +70,7 @@ class Wrapper extends Component {
                         <CourseRegister {...this.props}/>
                         :
                         this.state.displayPage === 'material' ?
-                            <DetailCourse {...this.props}/>
+                            <CourseMaterial {...this.props}/>
                             :
                             <div></div>
                 }

@@ -3,7 +3,7 @@ import Navbar from '../../template/Navbar'
 import {BarLoader, PacmanLoader} from 'react-spinners'
 import './style.css'
 
-class DetailCourse extends Component {
+class CourseMaterial extends Component {
     constructor() {
         super()
         this.state = {
@@ -110,4 +110,4 @@ class DetailCourse extends Component {
     }
 }
 
-export default DetailCourse
+export default CourseMaterial

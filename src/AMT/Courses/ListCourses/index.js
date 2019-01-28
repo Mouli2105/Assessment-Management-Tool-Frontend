@@ -17,7 +17,6 @@ class ListCourses extends Component {
         this.fetchCourses = this.fetchCourses.bind(this)
     }
     search(searchText) {
-        // implement this...
        this.setState({
            filteredCourses: this.state.courses.filter(course => {
                 return course.name.toLowerCase().includes(searchText.toLowerCase())

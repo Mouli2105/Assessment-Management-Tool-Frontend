@@ -19,7 +19,7 @@ class Navbar extends Component {
         })
     }
     searchWrapper(event) {
-        event.preventtitleDefault()
+        event.preventDefault()
         this.props.searchCallback(this.state.searchText)
     }
     titleClicked(event) {
