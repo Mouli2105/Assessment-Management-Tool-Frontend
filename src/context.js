@@ -58,6 +58,9 @@ class Provider extends Component {
             else {
                 if (failureCallback) failureCallback()
             }
+        },
+        getJWTHeader: () => {
+            return `JWT ${localStorage.getItem('token')}`
         }
     }
     render() {

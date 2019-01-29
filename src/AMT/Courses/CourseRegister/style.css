@@ -1,0 +1,16 @@
+#course-detail-text::before {
+    content: '';
+    position: absolute;
+    width: 100vw;
+    height: 70%;
+    left: 0;
+    background-image: linear-gradient(lightgrey, white);
+    z-index: -1;
+}
+
+#course-detail-text {
+}
+
+#course-detail-card {
+    color: black;
+}

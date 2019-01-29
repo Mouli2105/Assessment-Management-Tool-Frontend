@@ -26,7 +26,7 @@ class ListCourses extends Component {
     fetchCourses() {
         fetch(`${this.props.backendURL}/api/courses/`, {
             headers: {
-                'Authorization': `jwt ${localStorage.getItem('token')}`
+                'Authorization': this.props.getJWTHeader()
             }
         }).then(res => {
             if (res.status < 300) {

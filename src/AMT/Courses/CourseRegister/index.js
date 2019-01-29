@@ -12,12 +12,13 @@ class CourseRegister extends Component {
             isArchived: false,
             loadedData: false
         }
-        this.fetchCourse = this.fetchCourse.bind(this)
+        this.fetchCourse    = this.fetchCourse.bind(this)
+        this.registerCourse = this.registerCourse.bind(this)
     }
     fetchCourse() {
         fetch(`${this.props.backendURL}/api/courses/${this.props.courseId}`, {
             headers: {
-                'Authorization': `JWT ${localStorage.getItem('token')}`
+                'Authorization': this.props.getJWTHeader()
             }
         }).then(res => {
             if (res.status === 200) {
@@ -31,6 +32,42 @@ class CourseRegister extends Component {
                 description: course.description,
                 isArchived: course.archived
             })
+        })
+    }
+    registerCourse(event) {
+        fetch(`${this.props.backendURL}/api/students/${this.props.userId}/`, {
+            headers: {
+                'Authorization': this.props.getJWTHeader()
+            }
+        }).then(res => {
+            if (res.status === 200) {
+                return res.json()
+            }
+            throw new Error(res.statusText)
+        }).then(student => {
+            let optedCourses = student.optedCourses
+            optedCourses.push(this.props.courseId)
+            console.log(JSON.stringify(optedCourses))
+            return fetch(`${this.props.backendURL}/api/students/${this.props.userId}/`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.props.getJWTHeader()
+                },
+                body: JSON.stringify({
+                    optedCourses: optedCourses
+                })
+            })
+        }).then(res => {
+            if (res.status === 200) {
+                return res.json()
+            }
+            throw new Error(res.statusText)
+        }).then(() => {
+            this.props.changeDisplayPage('material')
+        })
+        .catch(err => {
+            console.log(err);
         })
     }
     componentDidMount() {
@@ -48,35 +85,51 @@ class CourseRegister extends Component {
                 {this.state.loadedData ?
                     <React.Fragment>
                         <div className="row">
-                            <div className="col">
-                                <img 
-                                    className="" 
-                                    src={require('./course-placeholder.jpg')} 
-                                    alt="Course"
-                                />
+                            <div className="col-sm-8">
+                                <div id="course-detail-text">
+                                    <h1 className="display-1">{this.state.name}</h1>
+                                    <p>{this.state.description}</p>
+                                </div>
+                                <div className="card">
+                                    <div className="card-header">About Course...</div>
+                                    <div className="card-body text-left">
+                                        <p className="card-text">placeholder</p>
+                                        <p className="card-text">placeholder</p>
+                                        <p className="card-text">placeholder</p>
+                                        <p className="card-text">placeholder</p>
+                                        <p className="card-text">placeholder</p>
+                                        <p className="card-text">placeholder</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-sm-4">
+                                <div className="card" id="course-detail-card">
+                                    <img 
+                                        id="course-register-img"
+                                        className="rounded card-img-top" 
+                                        src={require('./course-placeholder.jpg')} 
+                                        alt="Course"
+                                    />
+                                    <div className="card-body">
+                                        <p className="card-text">Apply to Course here</p>
+                                        <p className="card-text">
+                                            <button className="btn btn-danger btn-block" onClick={this.registerCourse}>
+                                                {!this.state.isArchived ? 
+                                                    'Register'
+                                                    :
+                                                    'View Archived'
+                                                }
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="row">
+                        {/* <div className="row">
                             <div className="col">
-                                <h1 className="display-1">{this.state.name}</h1>
+
                             </div>
-                        </div>
-                        <div className="row">
-                            <div className="col">
-                                <p>{this.state.description}</p>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col">
-                                <button className="btn">
-                                    {!this.state.isArchived ? 
-                                        'Register'
-                                        :
-                                        'View Archived'
-                                    }
-                                </button>
-                            </div>
-                        </div>
+                        </div> */}
                     </React.Fragment>
                     :
                     <div style={{position: 'absolute', top: '50%', right: '50%'}}>

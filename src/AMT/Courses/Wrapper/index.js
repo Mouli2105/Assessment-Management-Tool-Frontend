@@ -14,11 +14,17 @@ class Wrapper extends Component {
         }
         this.fetchRegisteredStudents  = this.fetchRegisteredStudents.bind(this)
         this.checkIfUserHasRegistered = this.checkIfUserHasRegistered.bind(this)
+        this.changeDisplayPage        = this.changeDisplayPage.bind(this)
+    }
+    changeDisplayPage(newDisplayPage) {
+        this.setState({
+            displayPage: newDisplayPage
+        })
     }
     fetchRegisteredStudents() {
         fetch(`${this.props.backendURL}/api/courses/${this.props.courseId}/students/`, {
             headers: {
-                'Authorization': `JWT ${localStorage.getItem('token')}`
+                'Authorization': this.props.getJWTHeader()
             }
         }).then(res => {
             if (res.status < 300) {
