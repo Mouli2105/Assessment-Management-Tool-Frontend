@@ -7,3 +7,10 @@
     display: flex;
     /* padding-left: 100px; */
 }
+
+#home-loading {
+    position: absolute;
+    top: 50vh;
+    right: 50vw;
+    z-index: 100;
+}

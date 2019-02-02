@@ -22,9 +22,9 @@ class Wrapper extends Component {
         })
     }
     fetchRegisteredStudents() {
-        fetch(`${this.props.backendURL}/api/courses/${this.props.courseId}/students/`, {
+        fetch(`${this.props.ctx.backendURL}/api/courses/${this.props.courseId}/students/`, {
             headers: {
-                'Authorization': this.props.getJWTHeader()
+                'Authorization': this.props.ctx.getJWTHeader()
             }
         }).then(res => {
             if (res.status < 300) {
@@ -35,7 +35,7 @@ class Wrapper extends Component {
             this.setState({
                 registeredStudents: data
             }, () => {
-                if (this.checkIfUserHasRegistered(this.state.registeredStudents, this.props.userId)) {
+                if (this.checkIfUserHasRegistered(this.state.registeredStudents, this.props.ctx.userId)) {
                     this.setState({
                         loadedData: true,
                         displayPage: 'material'
@@ -51,11 +51,10 @@ class Wrapper extends Component {
         }).catch(err => {
             console.log(err);
         })
-            
     }
-    checkIfUserHasRegistered(registeredStudents, currentUser) {
+    checkIfUserHasRegistered(registeredStudents, currentUserId) {
         for (let i = 0; i < registeredStudents.length; i++) {
-            if (registeredStudents.id === currentUser.id) {
+            if (registeredStudents.id === currentUserId) {
                 return true;
             }
         }
@@ -73,10 +72,22 @@ class Wrapper extends Component {
                     </div>
                     :
                     this.state.displayPage === 'apply' ?
-                        <CourseRegister {...this.props}/>
+                        <CourseRegister 
+                            ctx={this.props.ctx}
+                            courseId={this.props.courseId}
+                            wrapper={{
+                                'changeDisplayPage': this.changeDisplayPage
+                            }}
+                        />
                         :
                         this.state.displayPage === 'material' ?
-                            <CourseMaterial {...this.props}/>
+                            <CourseMaterial 
+                                ctx={this.props.ctx}
+                                courseId={this.props.courseId}
+                                wrapper={{
+                                    'changeDisplayPage': this.changeDisplayPage
+                                }}
+                            />
                             :
                             <div></div>
                 }

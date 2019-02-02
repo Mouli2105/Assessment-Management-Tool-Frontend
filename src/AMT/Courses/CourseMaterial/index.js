@@ -15,7 +15,7 @@ class CourseMaterial extends Component {
         this.fetchActiveTask = this.fetchActiveTask.bind(this)
     }
     fetchTaskList(courseId, callback) {
-        fetch(`${this.props.backendURL}/api/courses/${courseId}/tasks/`).then(res => {
+        fetch(`${this.props.ctx.backendURL}/api/courses/${courseId}/tasks/`).then(res => {
             if (res.status === 200) {
                 return res.json()
             }
@@ -30,7 +30,7 @@ class CourseMaterial extends Component {
         })
     }
     fetchActiveTask(courseId) {
-        fetch(`${this.props.backendURL}/api/courses/${courseId}/tasks/${this.state.activeTask}`).then(res => {
+        fetch(`${this.props.ctx.backendURL}/api/courses/${courseId}/tasks/${this.state.activeTask}`).then(res => {
             if (res.status === 200) {
                 return res.json()
             }
@@ -44,13 +44,14 @@ class CourseMaterial extends Component {
         })
     }
     componentDidMount() {
-        // this.fetchTaskList(this.props.courseId, this.fetchActiveTask)
+        // this.fetchTaskList(this.props.ctx.courseId, this.fetchActiveTask)
     }
     render() {
         return (
             <div className="container-fluid">
                 <Navbar
-                    title='course'
+                    title='Courses'
+                    titleRedirectURL='/courses'
                     showSettings
                 />
                 <section id="course-detail-content">

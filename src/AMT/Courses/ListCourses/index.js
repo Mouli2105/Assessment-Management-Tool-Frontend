@@ -24,9 +24,9 @@ class ListCourses extends Component {
        })
     }
     fetchCourses() {
-        fetch(`${this.props.backendURL}/api/courses/`, {
+        fetch(`${this.props.ctx.backendURL}/api/courses/`, {
             headers: {
-                'Authorization': this.props.getJWTHeader()
+                'Authorization': this.props.ctx.getJWTHeader()
             }
         }).then(res => {
             if (res.status < 300) {
@@ -44,7 +44,7 @@ class ListCourses extends Component {
         
     }
     componentDidMount() {
-        this.props.alreadyLoggedIn(
+        this.props.ctx.alreadyLoggedIn(
             this.fetchCourses, 
             () => {
                 this.props.history.push('/home')

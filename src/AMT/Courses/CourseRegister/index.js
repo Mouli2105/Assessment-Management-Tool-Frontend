@@ -16,9 +16,9 @@ class CourseRegister extends Component {
         this.registerCourse = this.registerCourse.bind(this)
     }
     fetchCourse() {
-        fetch(`${this.props.backendURL}/api/courses/${this.props.courseId}`, {
+        fetch(`${this.props.ctx.backendURL}/api/courses/${this.props.courseId}/`, {
             headers: {
-                'Authorization': this.props.getJWTHeader()
+                'Authorization': this.props.ctx.getJWTHeader()
             }
         }).then(res => {
             if (res.status === 200) {
@@ -32,12 +32,14 @@ class CourseRegister extends Component {
                 description: course.description,
                 isArchived: course.archived
             })
+        }).catch(err => {
+            console.log(err)
         })
     }
     registerCourse(event) {
-        fetch(`${this.props.backendURL}/api/students/${this.props.userId}/`, {
+        fetch(`${this.props.ctx.backendURL}/api/students/${this.props.ctx.userId}/`, {
             headers: {
-                'Authorization': this.props.getJWTHeader()
+                'Authorization': this.props.ctx.getJWTHeader()
             }
         }).then(res => {
             if (res.status === 200) {
@@ -46,13 +48,13 @@ class CourseRegister extends Component {
             throw new Error(res.statusText)
         }).then(student => {
             let optedCourses = student.optedCourses
-            optedCourses.push(this.props.courseId)
+            optedCourses.push(this.props.ctx.courseId)
             console.log(JSON.stringify(optedCourses))
-            return fetch(`${this.props.backendURL}/api/students/${this.props.userId}/`, {
+            return fetch(`${this.props.ctx.backendURL}/api/students/${this.props.ctx.userId}/`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': this.props.getJWTHeader()
+                    'Authorization': this.props.ctx.getJWTHeader()
                 },
                 body: JSON.stringify({
                     optedCourses: optedCourses
@@ -64,7 +66,7 @@ class CourseRegister extends Component {
             }
             throw new Error(res.statusText)
         }).then(() => {
-            this.props.changeDisplayPage('material')
+            this.props.wrapper.changeDisplayPage('material')
         })
         .catch(err => {
             console.log(err);

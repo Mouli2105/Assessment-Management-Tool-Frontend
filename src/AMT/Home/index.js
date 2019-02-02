@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router'
+import { ClipLoader } from 'react-spinners'
 import './style.css'
 
 class Home extends Component {
@@ -14,6 +15,7 @@ class Home extends Component {
             section     : '',
             password    : '',
             rememberUser: false,
+            loading     : false,
         }
         this.showLoginForm     = this.showLoginForm.bind(this)
         this.showSignupForm    = this.showSignupForm.bind(this)
@@ -41,7 +43,10 @@ class Home extends Component {
     }
     login(event) {
         event.preventDefault()
-        fetch(`${this.props.backendURL}/api/auth/token/`, {
+        this.setState({
+            loading: true
+        })
+        fetch(`${this.props.ctx.backendURL}/api/auth/token/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,7 +56,6 @@ class Home extends Component {
                 password: this.state.password
             })
         }).then(res => {
-            console.log('res', res)
             if (res.status < 300) {
                 return res.json()
             }
@@ -59,8 +63,8 @@ class Home extends Component {
         }).then(res => {
             localStorage.setItem('token', res.token)
             // ADD USERID TO BACKEND
-            // this.props.setCurrentUser(res.userId, res.username)
-            this.props.setRote(res.is_student, res.is_mentor)
+            // this.props.ctx.setCurrentUser(res.userId, res.username)
+            this.props.ctx.setRole(res.is_student, res.is_mentor)
             this.props.history.push('/courses')
         }).catch(err => {
             console.log(err)
@@ -68,7 +72,7 @@ class Home extends Component {
     }
     signup(event) {
         event.preventDefault()
-        fetch(`${this.props.backendURL}/api/students/`, {
+        fetch(`${this.props.ctx.backendURL}/api/students/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -93,8 +97,8 @@ class Home extends Component {
         }).then(res => {
             localStorage.setItem('token', res.token)
             // ADD USERID TO BACKEND
-            // this.props.setCurrentUser(res.userId, res.username)
-            this.props.setRote(res.is_student, res.is_mentor)
+            // this.props.ctx.setCurrentUser(res.userId, res.username)
+            this.props.ctx.setRote(res.is_student, res.is_mentor)
             this.props.history.push('/courses')
         }).catch(err => {
             console.log(err.message);
@@ -105,7 +109,7 @@ class Home extends Component {
         // implement this
     }
     componentDidMount() {
-        this.props.alreadyLoggedIn(
+        this.props.ctx.alreadyLoggedIn(
             () => {
                 this.props.history.push('/courses')
             }
@@ -188,6 +192,11 @@ class Home extends Component {
                             </div>
                         }
                     </div>
+                    {this.state.loading &&
+                        <div id='home-loading'>
+                            <ClipLoader color='blue'/>
+                        </div>
+                    }
                 </div>
             </div>
         )

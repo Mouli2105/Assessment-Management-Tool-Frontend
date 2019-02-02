@@ -19,17 +19,17 @@ class AMT extends Component {
                                 />
                                 <Route 
                                     exact path='/home'
-                                    render={() => <Home {...ctx}/>}
+                                    render={() => <Home ctx={ctx}/>}
                                 />
                                 <Route 
                                     exact path='/courses'
-                                    render={() => <ListCourses {...ctx}/>}
+                                    render={() => <ListCourses ctx={ctx}/>}
                                 />
                                 <Route
                                     exact path='/courses/:c_id'
                                     render={(props) => 
                                         <CourseWrapper 
-                                            {...ctx}
+                                            ctx={ctx}
                                             courseId={props.match.params.c_id}
                                         />
                                     }
