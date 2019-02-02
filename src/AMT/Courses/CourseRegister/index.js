@@ -48,7 +48,7 @@ class CourseRegister extends Component {
             throw new Error(res.statusText)
         }).then(student => {
             let optedCourses = student.optedCourses
-            optedCourses.push(this.props.ctx.courseId)
+            optedCourses.push(this.props.courseId)
             console.log(JSON.stringify(optedCourses))
             return fetch(`${this.props.ctx.backendURL}/api/students/${this.props.ctx.userId}/`, {
                 method: 'PATCH',

@@ -6,7 +6,7 @@ class Provider extends Component {
     state = {
         backendURL: 'http://mouli2105.pythonanywhere.com',
         loggedIn: false,
-        userId: 1,
+        userId: -1,
         username: '',
         role: '',
         setCurrentUser: (userId, username) => {

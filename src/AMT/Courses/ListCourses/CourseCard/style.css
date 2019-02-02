@@ -1,5 +1,5 @@
 .course-card {
-    transition: all 100ms;
+    transition: all 200ms;
 }
 
 .course-card:hover {
