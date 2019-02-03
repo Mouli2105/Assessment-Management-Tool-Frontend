@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import CourseCard from './CourseCard'
+import CourseCard from '../../template/CourseCard'
 import Navbar from '../../template/Navbar'
 import { PropagateLoader } from 'react-spinners'
 import {withRouter} from 'react-router'
@@ -60,7 +60,7 @@ class ListCourses extends Component {
                     searchCallback={this.search}
                     showSettings
                 />
-                <section id="list-courses-content">
+                <section className="list-courses-content">
                     {this.state.courses.length !== 0 ?
                         <div className="card-columns">
                             {this.state.filteredCourses.map(course => 

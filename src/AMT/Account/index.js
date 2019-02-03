@@ -26,7 +26,6 @@ class Account extends Component {
     }
     fetchUserData() {
         fetch(`${this.props.ctx.backendURL}/api/${this.props.ctx.role}/${this.props.ctx.userId}/`, {
-        // fetch(`${this.props.ctx.backendURL}/api/students/1/`, {
             headers: {
                 'Authorization': this.props.ctx.getJWTHeader()
             }
@@ -78,7 +77,6 @@ class Account extends Component {
         }
         console.log(this.props.ctx.role)
         fetch(`${this.props.ctx.backendURL}/api/${this.props.ctx.role}/${this.props.ctx.userId}`, {
-        // fetch(`${this.props.ctx.backendURL}/api/students/1/`, {
             method : 'PATCH',
             headers: {
                 "Content-type": "application/json",

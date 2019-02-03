@@ -5,6 +5,7 @@ import ListCourses from './Courses/ListCourses'
 import Context from '../context';
 import CourseWrapper from './Courses/Wrapper/index'
 import Account from './Account'
+import ListMyCourses from './Courses/ListMyCourses'
 
 class AMT extends Component {
     render() {
@@ -27,6 +28,10 @@ class AMT extends Component {
                                     render={() => <ListCourses ctx={ctx}/>}
                                 />
                                 <Route
+                                    exact path='/my-courses'
+                                    render={() => <ListMyCourses ctx={ctx}/>}
+                                />
+                                <Route
                                     exact path='/courses/:c_id'
                                     render={(props) => 
                                         <CourseWrapper 
@@ -37,11 +42,7 @@ class AMT extends Component {
                                 />
                                 <Route 
                                     exact path='/account'
-                                    render={() => 
-                                        <Account 
-                                            ctx={ctx}
-                                        />
-                                    }
+                                    render={() => <Account ctx={ctx}/>}
                                 />
                             </React.Fragment>
                         </BrowserRouter>
