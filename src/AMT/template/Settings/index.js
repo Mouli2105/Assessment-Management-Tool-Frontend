@@ -10,6 +10,7 @@ class Settings extends Component {
         }
         this.toggleSettingsMenu = this.toggleSettingsMenu.bind(this)
         this.logout             = this.logout.bind(this)
+        this.redirectToAccount  = this.redirectToAccount.bind(this)
     }
     toggleSettingsMenu() {
         this.setState(prev => ({
@@ -21,6 +22,10 @@ class Settings extends Component {
         localStorage.removeItem('token')
         this.props.history.push('/home')
     }
+    redirectToAccount(event) {
+        event.preventDefault()
+        this.props.history.push('/account')
+    }
     render() {
         return (
             <div className="dropdown">
@@ -28,7 +33,7 @@ class Settings extends Component {
                     <i className="fa fa-cog" aria-hidden="true"></i>
                 </button>
                 <div className={`dropdown-menu dropdown-menu-right${this.state.settingsOpen ? ' show' : ''}`}>
-                    <a className="dropdown-item" href="/">
+                    <a className="dropdown-item" href="/" onClick={this.redirectToAccount}>
                         <img src={require('./profile-avatar.png')} className="rounded" alt="Profile Avatar" id="profile-avatar" /> Account
                     </a>
                     <a className="dropdown-item" href="/">My Courses</a>

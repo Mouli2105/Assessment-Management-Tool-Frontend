@@ -4,6 +4,7 @@ import Home from './Home'
 import ListCourses from './Courses/ListCourses'
 import Context from '../context';
 import CourseWrapper from './Courses/Wrapper/index'
+import Account from './Account'
 
 class AMT extends Component {
     render() {
@@ -31,6 +32,14 @@ class AMT extends Component {
                                         <CourseWrapper 
                                             ctx={ctx}
                                             courseId={props.match.params.c_id}
+                                        />
+                                    }
+                                />
+                                <Route 
+                                    exact path='/account'
+                                    render={() => 
+                                        <Account 
+                                            ctx={ctx}
                                         />
                                     }
                                 />
