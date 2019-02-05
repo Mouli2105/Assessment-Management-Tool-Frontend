@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 import CourseMaterial from '../CourseMaterial'
@@ -12,9 +12,9 @@ class Wrapper extends Component {
             displayPage: '',
             registeredStudents: []
         }
-        this.fetchRegisteredStudents  = this.fetchRegisteredStudents.bind(this)
+        this.fetchRegisteredStudents = this.fetchRegisteredStudents.bind(this)
         this.checkIfUserHasRegistered = this.checkIfUserHasRegistered.bind(this)
-        this.changeDisplayPage        = this.changeDisplayPage.bind(this)
+        this.changeDisplayPage = this.changeDisplayPage.bind(this)
     }
     changeDisplayPage(newDisplayPage) {
         this.setState({
@@ -53,12 +53,8 @@ class Wrapper extends Component {
         })
     }
     checkIfUserHasRegistered(registeredStudents, currentUserId) {
-        for (let i = 0; i < registeredStudents.length; i++) {
-            if (registeredStudents.id === currentUserId) {
-                return true;
-            }
-        }
-        return false;
+        const std = registeredStudents.find(student => student.id === currentUserId)
+        return std !== undefined
     }
     componentDidMount() {
         this.fetchRegisteredStudents()
@@ -67,12 +63,12 @@ class Wrapper extends Component {
         return (
             <React.Fragment>
                 {!this.state.loadedData ?
-                    <div style={{position: 'absolute', top: '50%', right: '50%'}}>
+                    <div style={{ position: 'absolute', top: '50%', right: '50%' }}>
                         <ClipLoader />
                     </div>
                     :
                     this.state.displayPage === 'apply' ?
-                        <CourseRegister 
+                        <CourseRegister
                             ctx={this.props.ctx}
                             courseId={this.props.courseId}
                             wrapper={{
@@ -81,7 +77,7 @@ class Wrapper extends Component {
                         />
                         :
                         this.state.displayPage === 'material' ?
-                            <CourseMaterial 
+                            <CourseMaterial
                                 ctx={this.props.ctx}
                                 courseId={this.props.courseId}
                                 wrapper={{

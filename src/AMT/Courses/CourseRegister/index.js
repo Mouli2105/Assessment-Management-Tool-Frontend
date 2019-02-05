@@ -14,6 +14,7 @@ class CourseRegister extends Component {
         }
         this.fetchCourse    = this.fetchCourse.bind(this)
         this.registerCourse = this.registerCourse.bind(this)
+        this.getCourseIds   = this.getCourseIds.bind(this)
     }
     fetchCourse() {
         fetch(`${this.props.ctx.backendURL}/api/courses/${this.props.courseId}/`, {
@@ -36,6 +37,11 @@ class CourseRegister extends Component {
             console.log(err)
         })
     }
+    getCourseIds(courses) {
+        let courseIds = []
+        courses.forEach(course => courseIds.push(course.id))
+        return courseIds
+    }
     registerCourse(event) {
         fetch(`${this.props.ctx.backendURL}/api/students/${this.props.ctx.userId}/`, {
             headers: {
@@ -47,8 +53,8 @@ class CourseRegister extends Component {
             }
             throw new Error(res.statusText)
         }).then(student => {
-            let optedCourses = student.optedCourses
-            optedCourses.push(this.props.courseId)
+            let optedCourses = this.getCourseIds(student.optedCourses)
+            optedCourses.push(parseInt(this.props.courseId))
             console.log(JSON.stringify(optedCourses))
             return fetch(`${this.props.ctx.backendURL}/api/students/${this.props.ctx.userId}/`, {
                 method: 'PATCH',

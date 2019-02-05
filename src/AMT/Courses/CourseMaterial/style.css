@@ -12,14 +12,14 @@
     padding: 10px;
 }
 
-#task-detail-loader {
+#task-loader {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 45%;
 }
 
 #task-list-loader {
     position: absolute;
-    left: 37%;
-    transform: scaleX(4);
+    top: 50%;
+    left: 40%;
 }
