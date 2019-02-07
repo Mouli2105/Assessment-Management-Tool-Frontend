@@ -3,23 +3,27 @@ import Navbar from '../../template/Navbar'
 import { PulseLoader } from 'react-spinners'
 import './style.css'
 
+const _ = require('lodash')
+
 class CourseMaterial extends Component {
     constructor() {
         super()
         this.state = {
-            loadedList  : false,
-            loadedTask  : false,
-            taskList    : [],
-            activeTaskId: -1,
-            activeTask  : {},
+            loadedList       : false,
+            loadedTask       : false,
+            taskList         : [],
+            activeTaskId     : -1,
+            activeTask       : {},
+            submission       : '',
+            submissionSuccess: false,
         }
         this.fetchTaskList   = this.fetchTaskList.bind(this)
         this.fetchActiveTask = this.fetchActiveTask.bind(this)
         this.taskClicked     = this.taskClicked.bind(this)
-        this.onDownload      = this.onDownload.bind(this)
         this.onSubmit        = this.onSubmit.bind(this)
+        this.getSubmissions  = this.getSubmissions.bind(this)
     }
-    fetchTaskList(courseId, callback) {
+    fetchTaskList(courseId) {
         fetch(`${this.props.ctx.backendURL}/api/courses/${courseId}/tasks/`, {
             headers: {
                 Authorization: this.props.ctx.getJWTHeader()
@@ -36,7 +40,7 @@ class CourseMaterial extends Component {
                 activeTaskId: (data.length > 0) ? data[data.length - 1].id : -1,
             }, () => {
                 if (this.state.activeTaskId !== -1)
-                    callback(courseId)
+                    this.fetchActiveTask(courseId)
             })
         }).catch(err => {
             console.log(err)
@@ -56,6 +60,8 @@ class CourseMaterial extends Component {
             this.setState({
                 loadedTask: true,
                 activeTask: data
+            }, () => {
+                this.getSubmissions(this.state.activeTaskId)
             })
         }).catch(err => {
             console.log(err)
@@ -70,34 +76,58 @@ class CourseMaterial extends Component {
             this.fetchActiveTask(this.props.courseId)
         })
     }
-    onDownload() {
-        // ...
-    }
-    onSubmit() {
-        fetch(`${this.props.ctx.backendURL}/api/courses/${this.props.courseId}/tasks/${this.state.activeTaskId}/submissions/`, {
-            method: 'POST',
-            headers: {
-                Authorization: this.props.ctx.getJWTHeader()
-            },
-            body: JSON.stringify({
-                submission: '',
-                course    : this.props.courseId,
-                task      : this.state.activeTaskId,
-                student   : this.prop.ctx.userId 
+    onSubmit(event) {
+        this.setState({
+            submission: event.target.files[0],
+        }, () => {
+            console.log(this.state)
+            let formData = new FormData()
+            formData.append('submission', this.state.submission)
+            formData.append('course', this.props.courseId)
+            formData.append('task', this.state.activeTaskId)
+            formData.append('student', this.props.ctx.userId)
+            fetch(`${this.props.ctx.backendURL}/api/courses/${this.props.courseId}/tasks/${this.state.activeTaskId}/submissions/`, {
+                method: 'POST',
+                headers: {
+                    Authorization: this.props.ctx.getJWTHeader()
+                },
+                body: formData
+            }).then(res => {
+                if (res.status < 300) {
+                    return res.json()
+                }
+                throw new Error(res.statusText)
+            }).then(() => {
+                console.log('Submission successful!')
+            }).catch(err => {
+                console.log(err)
             })
+        })
+    }
+    getSubmissions(taskId) {
+        fetch(`${this.props.ctx.backendURL}/api/courses/${this.props.courseId}/tasks/${taskId}/submissions/`, {
+            headers: {
+                'Authorization': this.props.ctx.getJWTHeader()
+            }
         }).then(res => {
             if (res.status === 200) {
                 return res.json()
             }
             throw new Error(res.statusText)
-        }).then(() => {
-            console.log('Submission successful!')
-        }).catch(err => {
-            console.log(err)
+        }).then(submissions => {
+            this.setState({
+                submissionSuccess: _.includes(_.map(submissions, (s) => s.student), this.props.ctx.userId)
+            }, () => console.log(this.state))
+        })
+        .catch(err => {
+            console.log(err);
         })
     }
     componentDidMount() {
         this.fetchTaskList(this.props.courseId, this.fetchActiveTask)
+        if (this.state.activeTaskId) {
+
+        }
     }
     render() {
         return (
@@ -150,7 +180,6 @@ class CourseMaterial extends Component {
                                                             <a 
                                                                 href={this.state.activeTask.questions}
                                                                 className="btn btn-success btn-block"
-                                                                // onClick={this.onDownload}
                                                                 >
                                                                 Download
                                                             </a>
@@ -158,11 +187,24 @@ class CourseMaterial extends Component {
                                                         <div className="col">
                                                             <a 
                                                                 href='/'
-                                                                className="btn btn-danger btn-block"
-                                                                onClick={this.onSubmit}
+                                                                className={`btn ${this.state.submissionSuccess ? 'btn-success': 'btn-danger'} btn-block`}
+                                                                onClick={(event) => {
+                                                                    event.preventDefault()
+                                                                    this.upload.click()
+                                                                }}
                                                                 >
-                                                                Submit
+                                                                {this.state.submissionSuccess ?
+                                                                    'Submitted'
+                                                                    :
+                                                                    'Submit'
+                                                                }
                                                             </a>
+                                                            <input 
+                                                                type="file" 
+                                                                ref={(ref) => this.upload = ref} 
+                                                                style={{ display: 'none' }}
+                                                                onChange={this.onSubmit}
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>

@@ -6,7 +6,7 @@ class Provider extends Component {
     state = {
         backendURL: 'http://mouli2105.pythonanywhere.com',
         loggedIn: false,
-        userId: -1,
+        userId: 1,
         username: '',
         role: '',
         setCurrentUser: (userId, username) => {
@@ -46,8 +46,14 @@ class Provider extends Component {
                 }).then(res => {
                     localStorage.setItem('token', res.token)
                     // ADD THIS TO BACKEND
-                    this.state.setCurrentUser(res.userId, res.username)
-                    this.state.setRole(res.is_student, res.is_mentor)
+                    // this.state.setCurrentUser(res.userId, res.username)
+                    // this.state.setRole(res.is_student, res.is_mentor)
+                    this.setState({
+                        loggedIn: true,
+                        userId: 1,
+                        username: 'Mouli',
+                        role: 'students'
+                    })
                     if (successCallback) successCallback()
                 }).catch(err => {
                     console.log(err)

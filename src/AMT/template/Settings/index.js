@@ -42,7 +42,7 @@ class Settings extends Component {
                         <img src={require('./profile-avatar.png')} className="rounded" alt="Profile Avatar" id="profile-avatar" /> Account
                     </a>
                     <a className="dropdown-item" href="/" onClick={this.redirectToMyCourses}>My Courses</a>
-                    <a className="dropdown-item" href="/">Settings</a>
+                    {/* <a className="dropdown-item" href="/">Settings</a> */}
                     <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
                 </div>
             </div>
