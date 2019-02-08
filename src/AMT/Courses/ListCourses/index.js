@@ -9,8 +9,9 @@ class ListCourses extends Component {
     constructor() {
         super()
         this.state = {
-            searchText: '',
-            courses: [],
+            loadedData     : false,
+            searchText     : '',
+            courses        : [],
             filteredCourses: []
         }
         this.search       = this.search.bind(this)
@@ -35,6 +36,7 @@ class ListCourses extends Component {
             throw new Error(res.statusText)
         }).then(data => {
             this.setState({
+                loadedData: true,
                 courses: data,
                 filteredCourses: data,
             })
@@ -61,18 +63,26 @@ class ListCourses extends Component {
                     showSettings
                 />
                 <section className="list-courses-content">
-                    {this.state.courses.length !== 0 ?
-                        <div className="card-columns">
-                            {this.state.filteredCourses.map(course => 
-                                <CourseCard 
-                                    key={course.id}
-                                    id={course.id}
-                                    name={course.name} 
-                                    description={course.description}
-                                />
-                            )}
-                        </div>
-                    :
+                    {this.state.loadedData ?
+                        <React.Fragment>
+                            {this.state.courses.length !== 0 ?
+                                <div className="card-columns">
+                                    {this.state.filteredCourses.map(course => 
+                                        <CourseCard 
+                                            key={course.id}
+                                            id={course.id}
+                                            name={course.name} 
+                                            description={course.description}
+                                        />
+                                    )}
+                                </div>
+                                :
+                                <div class="alert alert-danger">
+                                    <strong>ERROR!</strong> No Courses Present.
+                                </div>
+                            }
+                        </React.Fragment>
+                        :
                         <div id="loading-spinner">
                             <PropagateLoader color='lightblue'/>
                         </div>

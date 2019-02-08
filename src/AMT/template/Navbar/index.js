@@ -31,7 +31,7 @@ class Navbar extends Component {
     render() {
         return (
             <section id="navigation-bar">
-                <nav className="navbar fixed-top">
+                <nav className="navbar fixed-top bg-light navbar-light">
                     <a href="#" className="navbar-brand" onClick={this.titleClicked}>{this.props.title}</a>
                     <div className="navbar-nav ml-auto">
                         {this.props.showSearchBar && 
