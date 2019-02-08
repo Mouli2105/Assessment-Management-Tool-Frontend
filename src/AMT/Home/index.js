@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router'
-import { ClipLoader } from 'react-spinners'
+import { ClipLoader, PulseLoader } from 'react-spinners'
 import './style.css'
 
 class Home extends Component {
@@ -16,6 +16,7 @@ class Home extends Component {
             password    : '',
             rememberUser: false,
             loading     : false,
+            clickLoading: false,
         }
         this.showLoginForm     = this.showLoginForm.bind(this)
         this.showSignupForm    = this.showSignupForm.bind(this)
@@ -27,13 +28,15 @@ class Home extends Component {
     showLoginForm(event) {
         event.preventDefault()
         this.setState({
-            renderSignup: false
+            renderSignup: false,
+            clickLoading: false,
         })
     }
     showSignupForm(event) {
         event.preventDefault()
         this.setState({
-            renderSignup: true
+            renderSignup: true,
+            clickLoading: false,
         })
     }
     handleInputChange(event) {
@@ -44,7 +47,7 @@ class Home extends Component {
     login(event) {
         event.preventDefault()
         this.setState({
-            loading: true
+            clickLoading: true
         })
         fetch(`${this.props.ctx.backendURL}/api/auth/token/`, {
             method: 'POST',
@@ -72,6 +75,9 @@ class Home extends Component {
     }
     signup(event) {
         event.preventDefault()
+        this.setState({
+            clickLoading: true
+        })
         fetch(`${this.props.ctx.backendURL}/api/students/`, {
             method: 'POST',
             headers: {
@@ -136,21 +142,27 @@ class Home extends Component {
                                 <div className="card-body">
                                     <form onSubmit={this.login}>  
                                         <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="Username" value={this.state.username} onChange={this.handleInputChange} name="username"/>
+                                            <input type="text" className="form-control" placeholder="Username" value={this.state.username} onChange={this.handleInputChange} name="username" required/>
                                         </div>
                                         <div className="form-group">
-                                            <input type="password" className="form-control" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} name="password"/>
+                                            <input type="password" className="form-control" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} name="password" required/>
                                         </div>
-                                        <div className="form-check text-left">
+                                        {/* <div className="form-check text-left">
                                             <label className="form-check-label">
                                                 <input type="checkbox" className="form-check-input" checked={this.state.rememberUser} onChange={(event) => this.setState({rememberUser: event.target.checked})}/> Remember Me
                                             </label>
                                         </div>
                                         <div className="form-group text-right">
                                             <a href="/" onClick={this.troubleLoggingIn}>Forgot Username/Password?</a>
-                                        </div>
+                                        </div> */}
                                         <div className="form-group">
-                                            <button className="btn btn-block bg-success text-light">LOGIN</button>
+                                            <button className="btn btn-block bg-success text-light">
+                                                {this.state.clickLoading ?
+                                                    <PulseLoader />
+                                                    :
+                                                    'LOGIN'
+                                                }    
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -164,25 +176,31 @@ class Home extends Component {
                                 <div className="card-body">
                                     <form onSubmit={this.signup}>
                                         <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="Username" value={this.state.username} onChange={this.handleInputChange} name="username"/>
+                                            <input type="text" className="form-control" placeholder="Username" value={this.state.username} onChange={this.handleInputChange} name="username" required/>
                                         </div>
                                         <div className="form-group">
-                                            <input type="email" className="form-control" placeholder="Email" value={this.state.email} onChange={this.handleInputChange} name="email"/>
+                                            <input type="email" className="form-control" placeholder="Email" value={this.state.email} onChange={this.handleInputChange} name="email" required/>
                                         </div>
                                         <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="College" value={this.state.college} onChange={this.handleInputChange} name="college"/>
+                                            <input type="text" className="form-control" placeholder="College" value={this.state.college} onChange={this.handleInputChange} name="college" required/>
                                         </div>
                                         <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="Branch" value={this.state.branch} onChange={this.handleInputChange} name="branch"/>
+                                            <input type="text" className="form-control" placeholder="Branch" value={this.state.branch} onChange={this.handleInputChange} name="branch" required/>
                                         </div>
                                         <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="Section" value={this.state.section} onChange={this.handleInputChange} name="section"/>
+                                            <input type="text" className="form-control" placeholder="Section" value={this.state.section} onChange={this.handleInputChange} name="section" required/>
                                         </div>
                                         <div className="form-group">
-                                            <input type="password" className="form-control" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} name="password"/>
+                                            <input type="password" className="form-control" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} name="password" required/>
                                         </div>
                                         <div className="form-group">
-                                            <button className="btn btn-block bg-success text-light">SIGNUP</button>
+                                            <button className="btn btn-block bg-success text-light">
+                                                {this.state.clickLoading ?
+                                                    <PulseLoader />
+                                                    :
+                                                    'SIGNUP'
+                                                }
+                                            </button>
                                         </div>
                                     </form>
                                 </div>

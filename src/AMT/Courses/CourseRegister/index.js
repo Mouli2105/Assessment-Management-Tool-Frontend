@@ -101,12 +101,14 @@ class CourseRegister extends Component {
                                 <div className="card">
                                     <div className="card-header">About Course...</div>
                                     <div className="card-body text-left">
-                                        <p className="card-text">placeholder</p>
-                                        <p className="card-text">placeholder</p>
-                                        <p className="card-text">placeholder</p>
-                                        <p className="card-text">placeholder</p>
-                                        <p className="card-text">placeholder</p>
-                                        <p className="card-text">placeholder</p>
+                                        <ul>
+                                            <li className="card-text">Learn to write code professionally.</li>
+                                            <li className="card-text">Learn advanced features and new features.</li>
+                                            <li className="card-text">Understand complex topics.</li>
+                                            <li className="card-text">Get an understanding of how & where to use.</li>
+                                            <li className="card-text">Good practice sessions.</li>
+                                            <li className="card-text">Better outputs.</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

@@ -44,6 +44,14 @@ class AMT extends Component {
                                     exact path='/account'
                                     render={() => <Account ctx={ctx}/>}
                                 />
+                                <Route
+                                    path='/admin'
+                                    component={() => {
+                                        window.location = `${ctx.backendURL}/admin`
+                                        return null
+                                    }}
+                                />
+
                             </React.Fragment>
                         </BrowserRouter>
                     )
