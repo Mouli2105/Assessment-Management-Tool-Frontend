@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
-import {BrowserRouter, Route, Redirect} from 'react-router-dom'
+import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom'
 import Home from './Home'
 import ListCourses from './Courses/ListCourses'
 import Context from '../context';
 import CourseWrapper from './Courses/Wrapper/index'
 import Account from './Account'
 import ListMyCourses from './Courses/ListMyCourses'
+import AddCourse from './Courses/AddCourse'
 
 class AMT extends Component {
     render() {
@@ -14,7 +15,7 @@ class AMT extends Component {
                 {(ctx) => {
                     return (
                         <BrowserRouter>
-                            <React.Fragment>
+                            <Switch>
                                 <Route 
                                     exact path='/'
                                     render={() => <Redirect to='/home' />}
@@ -26,6 +27,10 @@ class AMT extends Component {
                                 <Route 
                                     exact path='/courses'
                                     render={() => <ListCourses ctx={ctx}/>}
+                                />
+                                <Route
+                                    exact path='/new'
+                                    render={() => <AddCourse ctx={ctx}/>}
                                 />
                                 <Route
                                     exact path='/my-courses'
@@ -51,8 +56,7 @@ class AMT extends Component {
                                         return null
                                     }}
                                 />
-
-                            </React.Fragment>
+                            </Switch>
                         </BrowserRouter>
                     )
                 }}

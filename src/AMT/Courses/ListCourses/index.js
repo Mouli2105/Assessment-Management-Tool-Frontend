@@ -12,10 +12,11 @@ class ListCourses extends Component {
             loadedData     : false,
             searchText     : '',
             courses        : [],
-            filteredCourses: []
+            filteredCourses: [],
         }
-        this.search       = this.search.bind(this)
-        this.fetchCourses = this.fetchCourses.bind(this)
+        this.search            = this.search.bind(this)
+        this.fetchCourses      = this.fetchCourses.bind(this)
+        this.addCourseRedirect = this.addCourseRedirect.bind(this)
     }
     search(searchText) {
        this.setState({
@@ -43,7 +44,9 @@ class ListCourses extends Component {
         }).catch(err => {
             console.log(err)
         })
-        
+    }
+    addCourseRedirect() {
+        this.props.history.push('/new')
     }
     componentDidMount() {
         this.props.ctx.alreadyLoggedIn(
@@ -77,9 +80,18 @@ class ListCourses extends Component {
                                     )}
                                 </div>
                                 :
-                                <div class="alert alert-danger">
+                                <div className="alert alert-danger">
                                     <strong>ERROR!</strong> No Courses Present.
                                 </div>
+                            }
+                            {this.props.ctx.role === 'mentors' &&
+                                <button
+                                    id="add-course-btn"
+                                    className="btn btn-success"
+                                    onClick={this.addCourseRedirect}
+                                    >
+                                    +
+                                </button>
                             }
                         </React.Fragment>
                         :

@@ -21,3 +21,9 @@
     right: 50%;
     /* transform: scale(5); */
 }
+
+#add-course-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}

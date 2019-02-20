@@ -18,12 +18,12 @@ class Provider extends Component {
         setRole: (is_student, is_mentor) => {
             if (is_student) {
                 this.setState({
-                    role: 'student'
+                    role: 'students'
                 })
             }
             else if (is_mentor) {
                 this.setState({
-                    role: 'mentor'
+                    role: 'mentors'
                 })
             }
         },

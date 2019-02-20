@@ -104,7 +104,7 @@ class Home extends Component {
             localStorage.setItem('token', res.token)
             // ADD USERID TO BACKEND
             // this.props.ctx.setCurrentUser(res.userId, res.username)
-            this.props.ctx.setRote(res.is_student, res.is_mentor)
+            this.props.ctx.setRole(res.is_student, res.is_mentor)
             this.props.history.push('/courses')
         }).catch(err => {
             console.log(err.message);
@@ -125,7 +125,7 @@ class Home extends Component {
         return (
             <div className="container-fluid">
                 <div id="home-page" className="row">
-                    <div id="title-col" className="col bg-success my-col">
+                    <div id="title-col" className="col-sm-8 bg-success my-col">
                         <h1 className="display-1">
                             <kbd>A</kbd>ssessment
                             <br />
@@ -134,11 +134,11 @@ class Home extends Component {
                             <kbd>T</kbd>ool
                         </h1>
                     </div>
-                    <div className="col text-center my-col">
+                    <div className="col-sm-4 text-center my-col">
                         <h4 className="display-4"><kbd>AMT</kbd></h4>
                         {!this.state.renderSignup ? 
                             <div className="card">
-                                <div className="card-header">LOGIN AS STUDENT</div>
+                                <div className="card-header">LOGIN</div>
                                 <div className="card-body">
                                     <form onSubmit={this.login}>  
                                         <div className="form-group">
