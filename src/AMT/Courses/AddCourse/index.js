@@ -45,19 +45,14 @@ class AddCourse extends Component {
         })
     }
     componentDidMount() {
-        this.props.ctx.alreadyLoggedIn(
-            () => {
-                this.props.ctx.role !== 'mentors' ?
-                    this.props.history.push('/courses')
-                    :
-                    this.setState({
-                        showPage: true
-                    })
-            }, 
-            () => {
-                this.props.history.push('/home')
-            }
-        )
+        if (this.props.ctx.role !== 'mentors') {
+            this.props.history.push('/courses')
+        }
+        else {
+            this.setState({
+                showPage: true
+            })
+        }
     }
     render() {
         return (

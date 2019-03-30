@@ -57,10 +57,13 @@ class Wrapper extends Component {
         return std !== undefined
     }
     componentDidMount() {
-        this.props.ctx.alreadyLoggedIn(() => {
-            this.props.ctx.role === 'students' && this.fetchRegisteredStudents()
-            this.props.ctx.role === 'mentors' && this.setState({loadedData: true, displayPage: 'material'})
-        })
+        if (this.props.ctx.role === 'students')
+            this.fetchRegisteredStudents()
+        if (this.props.ctx.role === 'mentors')
+            this.setState({
+                loadedData: true,
+                displayPage: 'material'
+            })
     }
     render() {
         return (

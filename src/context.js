@@ -45,15 +45,8 @@ class Provider extends Component {
                     throw new Error(res.statusText)
                 }).then(res => {
                     localStorage.setItem('token', res.token)
-                    // ADD THIS TO BACKEND
-                    // this.state.setCurrentUser(res.userId, res.username)
-                    // this.state.setRole(res.is_student, res.is_mentor)
-                    this.setState({
-                        loggedIn: true,
-                        userId: 1,
-                        username: 'Mouli',
-                        role: 'students'
-                    })
+                    this.state.setCurrentUser(res.userId, res.username)
+                    this.state.setRole(res.is_student, res.is_mentor)
                     if (successCallback) successCallback()
                 }).catch(err => {
                     console.log(err)

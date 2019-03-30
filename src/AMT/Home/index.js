@@ -65,8 +65,7 @@ class Home extends Component {
             throw new Error(res.statusText)
         }).then(res => {
             localStorage.setItem('token', res.token)
-            // ADD USERID TO BACKEND
-            // this.props.ctx.setCurrentUser(res.userId, res.username)
+            this.props.ctx.setCurrentUser(res.user_id, res.username)
             this.props.ctx.setRole(res.is_student, res.is_mentor)
             this.props.history.push('/courses')
         }).catch(err => {
@@ -102,8 +101,7 @@ class Home extends Component {
             throw new Error('Server reponse was not ok!')
         }).then(res => {
             localStorage.setItem('token', res.token)
-            // ADD USERID TO BACKEND
-            // this.props.ctx.setCurrentUser(res.userId, res.username)
+            this.props.ctx.setCurrentUser(res.user_id, res.username)
             this.props.ctx.setRole(res.is_student, res.is_mentor)
             this.props.history.push('/courses')
         }).catch(err => {

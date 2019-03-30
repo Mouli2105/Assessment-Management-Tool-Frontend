@@ -49,12 +49,7 @@ class ListCourses extends Component {
         this.props.history.push('/new')
     }
     componentDidMount() {
-        this.props.ctx.alreadyLoggedIn(
-            this.fetchCourses, 
-            () => {
-                this.props.history.push('/home')
-            }
-        )
+        this.fetchCourses() 
     }
     render() {
         return (

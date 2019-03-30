@@ -34,12 +34,7 @@ class ListMyCourses extends Component {
         })
     }
     componentDidMount() {
-        this.props.ctx.alreadyLoggedIn(
-            () => {
-                this.fetchMyCourses()
-            },
-            () => this.props.history.push('/home')
-        )
+        this.fetchMyCourses()
     }
     render() {
         return (

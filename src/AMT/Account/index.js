@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Navbar from '../template/Navbar'
 import {withRouter} from 'react-router'
-import {CircleLoader, BarLoader, MoonLoader, PulseLoader} from 'react-spinners'
+import {PulseLoader} from 'react-spinners'
 import './style.css'
 
 class Account extends Component {
@@ -103,14 +103,7 @@ class Account extends Component {
         this.props.history.push('/courses')
     }
     componentDidMount() {
-        this.props.ctx.alreadyLoggedIn(
-            () => {
-                this.fetchUserData()
-            },
-            () => {
-                this.props.history.push('/home')
-            }
-        )
+        this.fetchUserData()
     }
     render() {
         return (
