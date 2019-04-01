@@ -4,7 +4,7 @@ const Context = React.createContext()
 
 class Provider extends Component {
     state = {
-        backendURL: 'http://mouli2105.pythonanywhere.com',
+        backendURL: 'https://mouli2105.pythonanywhere.com',
         loggedIn: false,
         userId: 1,
         username: '',
